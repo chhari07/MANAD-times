@@ -40,13 +40,11 @@ const InsidedataIndia: React.FC = () => {
 
   return (
     <div className="bg-black text-white">
-      <div className="container mx-auto  mt-32   grid grid-cols-1  lg:ml-72  lg:grid-cols-12 gap-4 p-4">
-       
-
+      <div className="container mx-auto mt-32 grid grid-cols-1 lg:grid-cols-12 gap-4 p-4">
         {/* News Section */}
         <div className="flex flex-col p-4 lg:col-span-8">
           <div className="flex justify-start mb-4">
-            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white  text-black">
+            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white text-black">
               Latest News
             </span>
           </div>
@@ -66,11 +64,8 @@ const InsidedataIndia: React.FC = () => {
           {/* News Articles */}
           {newsData.length > 0 &&
             newsData.map((article, index) => (
-              <div
-                key={index}
-                className="border-b border-gray-700 pb-4 mb-4"
-              >
-                <h2 className="text-lg md:text-xl font-bold">
+              <div key={index} className="border-b border-gray-700 pb-4 mb-4">
+                <h2 className="text-lg md:text-xl font-bold text-white">
                   {article.title || "Untitled Article"}
                 </h2>
                 <p className="text-sm md:text-base text-gray-300">
@@ -80,7 +75,7 @@ const InsidedataIndia: React.FC = () => {
                   rel="noopener noreferrer"
                   href={article.link || "#"}
                   target="_blank"
-                  className="inline-flex items-center text-sm text-violet-400  hover:underline"
+                  className="inline-flex items-center text-sm text-violet-400 hover:underline"
                 >
                   <span>Read more</span>
                   <svg

@@ -13,28 +13,28 @@ const WorldNews: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      setLoading(true);
-      setError(null);
+  const fetchNews = async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const response = await axios.get(
-          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=world  "
-        );
+    try {
+      const response = await axios.get(
+        "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=world"
+      );
 
-        if (response.data.status === "success" && Array.isArray(response.data.results)) {
-          setNewsData(response.data.results);
-        } else {
-          throw new Error("Unexpected API response structure.");
-        }
-      } catch (err: any) {
-        setError(err.message || "Something went wrong while fetching news.");
-      } finally {
-        setLoading(false);
+      if (response.data.status === "success" && Array.isArray(response.data.results)) {
+        setNewsData(response.data.results);
+      } else {
+        throw new Error("Unexpected API response structure.");
       }
-    };
+    } catch (err: any) {
+      setError(err.message || "Something went wrong while fetching news.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchNews();
   }, []);
 
@@ -48,13 +48,27 @@ const WorldNews: React.FC = () => {
               Latest News
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest News of world</h1>
+          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest World News</h1>
 
           {/* Loading State */}
-          {loading && <p>Loading...</p>}
+          {loading && (
+            <div className="flex justify-center items-center">
+              <div className="w-8 h-8 border-4 border-t-4 border-violet-600 border-solid rounded-full animate-spin"></div>
+            </div>
+          )}
 
           {/* Error State */}
-          {error && <p className="text-red-500">Error: {error}</p>}
+          {error && (
+            <div className="text-red-500 mb-4">
+              <p>Error: {error}</p>
+              <button
+                onClick={fetchNews}
+                className="mt-2 text-violet-600 hover:underline"
+              >
+                Retry
+              </button>
+            </div>
+          )}
 
           {/* Empty Data State */}
           {newsData.length === 0 && !loading && !error && (
@@ -64,10 +78,7 @@ const WorldNews: React.FC = () => {
           {/* News Articles */}
           {newsData.length > 0 &&
             newsData.map((article, index) => (
-              <div
-                key={index}
-                className="border-b border-gray-700 pb-4 mb-4"
-              >
+              <div key={index} className="border-b border-gray-700 pb-4 mb-4">
                 <h2 className="text-lg md:text-xl font-bold">
                   {article.title || "Untitled Article"}
                 </h2>

@@ -20,7 +20,7 @@ const TechNews: React.FC = () => {
 
       try {
         const response = await axios.get(
-          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=lifestyle,top   "
+          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=lifestyle,top"
         );
 
         if (response.data.status === "success" && Array.isArray(response.data.results)) {
@@ -48,7 +48,7 @@ const TechNews: React.FC = () => {
               Latest News
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest Random News </h1>
+          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest Random News</h1>
 
           {/* Loading State */}
           {loading && <p>Loading...</p>}
