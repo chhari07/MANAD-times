@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image'; // Import Image component
 
 const Signin = () => {
   return (
@@ -7,21 +8,22 @@ const Signin = () => {
       <div className="relative py-16 bg-black mt-20">
         <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
           <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
-            <div className="rounded-xl bg-black  " >
+            <div className="rounded-xl bg-black">
               <div className="p-6 sm:p-16">
                 <div className="space-y-4">
-                 
-                  <h2 className="text-3xl mt-28      lg:mt-1   md:text-7xl font-bold dark:text-white text-center">
+                  <h2 className="text-3xl mt-28 lg:mt-1 md:text-7xl font-bold dark:text-white text-center">
                     Sign in to मांनद Times
                   </h2>
                 </div>
                 <div className="mt-16 grid space-y-4">
                   <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
                     <div className="relative flex items-center space-x-4 justify-center">
-                      <img
-                        src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo "
-                        className="absolute left-0 w-5"
-                      
+                      <Image
+                        src="https://img.icons8.com/color/48/google-logo.png"
+                        alt="google-logo"
+                        width={20}
+                        height={20}
+                        className="absolute left-0"
                       />
                       <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">
                         Continue with Google
@@ -45,10 +47,12 @@ const Signin = () => {
                   </button>
                   <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
                     <div className="relative flex items-center space-x-4 justify-center">
-                      <img
+                      <Image
                         src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_%282021%29.svg"
-                        className="absolute left-0 w-5"
                         alt="Facebook logo"
+                        width={20}
+                        height={20}
+                        className="absolute left-0"
                       />
                       <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">
                         Continue with Facebook
@@ -57,9 +61,7 @@ const Signin = () => {
                   </button>
                 </div>
 
-                <div className="mt-32 space-y-4 text-gray-600 text-center sm:-mb-8">
-                 
-                </div>
+                <div className="mt-32 space-y-4 text-gray-600 text-center sm:-mb-8"></div>
               </div>
             </div>
           </div>
