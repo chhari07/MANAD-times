@@ -20,7 +20,7 @@ const LifeNews: React.FC = () => {
 
       try {
         const response = await axios.get(
-          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=world  "
+          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=world"
         );
 
         if (response.data.status === "success" && Array.isArray(response.data.results)) {
@@ -28,8 +28,12 @@ const LifeNews: React.FC = () => {
         } else {
           throw new Error("Unexpected API response structure.");
         }
-      } catch (err: any) {
-        setError(err.message || "Something went wrong while fetching news.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || "Something went wrong while fetching news.");
+        } else {
+          setError("Something went wrong while fetching news.");
+        }
       } finally {
         setLoading(false);
       }

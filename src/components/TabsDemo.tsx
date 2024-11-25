@@ -49,7 +49,7 @@ export function TabsDemo() {
     { title: "World", value: "world" },
     { title: "Tech", value: "tech" },
     { title: "Lifestyle", value: "lifestyle" },
-    { title: "Random", value: "random" },
+   
   ];
 
   const handleTabChange = (tabValue: string) => {

@@ -8,6 +8,11 @@ interface NewsArticle {
   link?: string;
 }
 
+interface NewsApiResponse {
+  status: string;
+  results: NewsArticle[];
+}
+
 const InsidedataIndia: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,7 +24,7 @@ const InsidedataIndia: React.FC = () => {
       setError(null);
 
       try {
-        const response = await axios.get(
+        const response = await axios.get<NewsApiResponse>(
           "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&q=world&country=in&category=education,environment,food,politics,technology"
         );
 
@@ -28,8 +33,8 @@ const InsidedataIndia: React.FC = () => {
         } else {
           throw new Error("Unexpected API response structure.");
         }
-      } catch (err: any) {
-        setError(err.message || "Something went wrong while fetching news.");
+      } catch (err) {
+        setError((err as Error).message || "Something went wrong while fetching news.");
       } finally {
         setLoading(false);
       }
@@ -40,39 +45,41 @@ const InsidedataIndia: React.FC = () => {
 
   return (
     <div className="bg-black text-white">
-      <div className="container mx-auto  mt-32   grid grid-cols-1  lg:ml-72  lg:grid-cols-12 gap-4 p-4">
-       
-
-        {/* News Section */}
+      <div className="container mx-auto mt-32 grid grid-cols-1 lg:ml-72 lg:grid-cols-12 gap-4 p-4">
         <div className="flex flex-col p-4 lg:col-span-8">
           <div className="flex justify-start mb-4">
-            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white  text-black">
+            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white text-black">
               Latest News
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest News in India</h1>
 
-          {/* Loading State */}
-          {loading && <p>Loading...</p>}
+          {loading && (
+            <div className="flex justify-center items-center">
+              <div className="w-8 h-8 border-4 border-t-4 border-violet-600 border-solid rounded-full animate-spin" />
+            </div>
+          )}
 
-          {/* Error State */}
-          {error && <p className="text-red-500">Error: {error}</p>}
+          {error && (
+            <div className="text-red-500">
+              <p>Error: {error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-2 text-violet-600 hover:underline"
+              >
+                Retry
+              </button>
+            </div>
+          )}
 
-          {/* Empty Data State */}
           {newsData.length === 0 && !loading && !error && (
             <p>No news articles available at the moment.</p>
           )}
 
-          {/* News Articles */}
           {newsData.length > 0 &&
             newsData.map((article, index) => (
-              <div
-                key={index}
-                className="border-b border-gray-700 pb-4 mb-4"
-              >
-                <h2 className="text-lg md:text-xl font-bold">
-                  {article.title || "Untitled Article"}
-                </h2>
+              <div key={index} className="border-b border-gray-700 pb-4 mb-4">
+                <h2 className="text-lg md:text-xl font-bold">{article.title || "Untitled Article"}</h2>
                 <p className="text-sm md:text-base text-gray-300">
                   {article.description || "Description is not available for this article."}
                 </p>
@@ -80,7 +87,7 @@ const InsidedataIndia: React.FC = () => {
                   rel="noopener noreferrer"
                   href={article.link || "#"}
                   target="_blank"
-                  className="inline-flex items-center text-sm text-violet-400  hover:underline"
+                  className="inline-flex items-center text-sm text-violet-400 hover:underline"
                 >
                   <span>Read more</span>
                   <svg

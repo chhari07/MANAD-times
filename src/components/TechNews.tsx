@@ -20,7 +20,7 @@ const TechNews: React.FC = () => {
 
       try {
         const response = await axios.get(
-          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=technology"
+          "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=lifestyle,top"
         );
 
         if (response.data.status === "success" && Array.isArray(response.data.results)) {
@@ -28,8 +28,12 @@ const TechNews: React.FC = () => {
         } else {
           throw new Error("Unexpected API response structure.");
         }
-      } catch (err: any) {
-        setError(err.message || "Something went wrong while fetching news.");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || "Something went wrong while fetching news.");
+        } else {
+          setError("Something went wrong while fetching news.");
+        }
       } finally {
         setLoading(false);
       }
@@ -48,7 +52,7 @@ const TechNews: React.FC = () => {
               Latest News
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest News on Technology</h1>
+          <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest Random News</h1>
 
           {/* Loading State */}
           {loading && <p>Loading...</p>}

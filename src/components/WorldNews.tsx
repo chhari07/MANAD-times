@@ -8,6 +8,11 @@ interface NewsArticle {
   link?: string;
 }
 
+interface NewsApiResponse {
+  status: string;
+  results: NewsArticle[];
+}
+
 const WorldNews: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +23,7 @@ const WorldNews: React.FC = () => {
     setError(null);
 
     try {
-      const response = await axios.get(
+      const response = await axios.get<NewsApiResponse>(
         "https://newsdata.io/api/1/news?apikey=pub_60272c028e393a4834346618e4e4db87599b0&country=cf,cn,in,kp,us&category=world"
       );
 
@@ -27,8 +32,8 @@ const WorldNews: React.FC = () => {
       } else {
         throw new Error("Unexpected API response structure.");
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong while fetching news.");
+    } catch (err) {
+      setError((err as Error).message || "Something went wrong while fetching news.");
     } finally {
       setLoading(false);
     }
@@ -41,23 +46,20 @@ const WorldNews: React.FC = () => {
   return (
     <div className="bg-black text-white">
       <div className="container mx-auto mt-32 grid grid-cols-1 lg:ml-72 lg:grid-cols-12 gap-4 p-4">
-        {/* News Section */}
         <div className="flex flex-col p-4 lg:col-span-8">
           <div className="flex justify-start mb-4">
             <span className="px-3 py-1 text-xs font-semibold rounded-full bg-violet-600 text-white">
-              Latest News
+              Latest World News
             </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-semibold mb-4">Latest World News</h1>
 
-          {/* Loading State */}
           {loading && (
             <div className="flex justify-center items-center">
               <div className="w-8 h-8 border-4 border-t-4 border-violet-600 border-solid rounded-full animate-spin"></div>
             </div>
           )}
 
-          {/* Error State */}
           {error && (
             <div className="text-red-500 mb-4">
               <p>Error: {error}</p>
@@ -70,18 +72,14 @@ const WorldNews: React.FC = () => {
             </div>
           )}
 
-          {/* Empty Data State */}
           {newsData.length === 0 && !loading && !error && (
-            <p>No news articles available at the moment.</p>
+            <p>No news articles available at the moment. Please try again later.</p>
           )}
 
-          {/* News Articles */}
           {newsData.length > 0 &&
             newsData.map((article, index) => (
               <div key={index} className="border-b border-gray-700 pb-4 mb-4">
-                <h2 className="text-lg md:text-xl font-bold">
-                  {article.title || "Untitled Article"}
-                </h2>
+                <h2 className="text-lg md:text-xl font-bold">{article.title || "Untitled Article"}</h2>
                 <p className="text-sm md:text-base text-gray-300">
                   {article.description || "Description is not available for this article."}
                 </p>
